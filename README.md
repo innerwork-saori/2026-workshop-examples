@@ -6,5 +6,5 @@ Workshop Samples
 - [聯絡我](/website-contact-form.html)
 - [薪資成長計算機](/salary-calculator.html)
 - [我的 AI 等級](/ai_mage_rpg.html)
-- [Cafe1](/Cafe_example/example1)
-- [Cafe2](Cafe_example/example2)
+- [Saori Coffee — 每一杯，都是故事的開始](/Cafe_example/example1/index.html)
+- [Murmur Coffee — 說說話，喝杯咖啡](/Cafe_example/example2/index.html)
