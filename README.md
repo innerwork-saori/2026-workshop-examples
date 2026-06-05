@@ -1,5 +1,5 @@
-# 2026-workshop-samples
-Workshop Samples
+# 2026-workshop-examples
+Workshop examples
 
 - [一頁式網站工作坊｜Saori](/ChatGpt.html)
 - [把自己放到網路上｜3 小時完成你的第一個個人網站](/Perplexity.html)
