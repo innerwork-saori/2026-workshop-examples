@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Murmur Coffee — 說說話，喝杯咖啡</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Noto+Serif+TC:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sage:    #8A9B7B;
+      --sage-lt: #C8D5BC;
+      --clay:    #B07858;
+      --clay-lt: #D4AA8F;
+      --sand:    #F2EDE4;
+      --paper:   #FAF8F4;
+      --ink:     #2A2318;
+      --ink-md:  #5C5040;
+      --ink-lt:  #9B8E80;
+      --white:   #FEFCF9;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', 'Noto Serif TC', sans-serif;
+      background: var(--white);
+      color: var(--ink);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 6vw;
+      background: rgba(254, 252, 249, 0.9);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(138, 155, 123, 0.18);
+      transition: box-shadow .3s;
+    }
+    nav.scrolled { box-shadow: 0 2px 24px rgba(42,35,24,.07); }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 600;
+      color: var(--ink); text-decoration: none; letter-spacing: .02em;
+    }
+    .logo span { color: var(--sage); }
+
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; font-size: .82rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--ink-md); transition: color .3s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    .nav-reserve {
+      background: var(--ink); color: var(--sand) !important;
+      padding: .5rem 1.3rem; border-radius: 2px;
+    }
+    .nav-reserve:hover { background: var(--ink-md) !important; color: var(--sand) !important; }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 55% 45%;
+      padding-top: 72px;
+    }
+
+    .hero-left {
+      position: relative; overflow: hidden;
+    }
+    .hero-left img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+    }
+    .hero-left-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, transparent 60%, var(--white) 100%);
+    }
+
+    .hero-right {
+      display: flex; flex-direction: column;
+      justify-content: center;
+      padding: 5rem 7vw 5rem 4vw;
+      gap: 1.6rem;
+    }
+
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: .6rem;
+      font-size: .75rem; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--sage); font-weight: 500;
+    }
+    .hero-tag::before {
+      content: ''; display: block;
+      width: 28px; height: 1px; background: var(--sage);
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.6rem, 4.5vw, 4.8rem);
+      font-weight: 400; line-height: 1.15;
+      color: var(--ink);
+    }
+    .hero-title em { font-style: italic; color: var(--clay); }
+
+    .hero-sub {
+      font-size: .95rem; color: var(--ink-md);
+      font-weight: 300; max-width: 380px; line-height: 1.85;
+    }
+
+    .hero-btns { display: flex; gap: 1rem; align-items: center; margin-top: .4rem; }
+
+    .btn-fill {
+      background: var(--sage); color: white;
+      border: none; padding: .85rem 2rem;
+      font-size: .8rem; letter-spacing: .12em; text-transform: uppercase;
+      cursor: pointer; text-decoration: none; display: inline-block;
+      border-radius: 3px; transition: background .3s, transform .2s;
+    }
+    .btn-fill:hover { background: var(--ink); transform: translateY(-1px); }
+
+    .btn-line {
+      background: transparent; color: var(--ink-md);
+      border: 1px solid var(--sage-lt);
+      padding: .85rem 2rem; font-size: .8rem; letter-spacing: .12em;
+      text-transform: uppercase; cursor: pointer; text-decoration: none;
+      display: inline-block; border-radius: 3px; transition: border-color .3s, color .3s;
+    }
+    .btn-line:hover { border-color: var(--clay); color: var(--ink); }
+
+    .hero-note {
+      font-size: .78rem; color: var(--ink-lt);
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .hero-note::before {
+      content: ''; display: block;
+      width: 18px; height: 1px; background: var(--ink-lt);
+    }
+
+    /* ─── TICKER ─── */
+    .ticker {
+      background: var(--sage); color: white;
+      padding: .7rem 0; overflow: hidden; white-space: nowrap;
+    }
+    .ticker-track {
+      display: inline-flex; gap: 2.5rem;
+      animation: tick 22s linear infinite;
+    }
+    .ticker-item {
+      font-size: .73rem; letter-spacing: .18em; text-transform: uppercase;
+      display: inline-flex; align-items: center; gap: 1rem;
+    }
+    .ticker-sep {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--sage-lt); display: inline-block;
+    }
+    @keyframes tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ─── SECTION COMMON ─── */
+    .eyebrow {
+      font-size: .73rem; letter-spacing: .24em;
+      text-transform: uppercase; color: var(--clay); font-weight: 500;
+    }
+    .sec-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 3vw, 3rem);
+      font-weight: 400; line-height: 1.25; color: var(--ink);
+    }
+    .sec-title em { font-style: italic; color: var(--sage); }
+
+    /* ─── ABOUT ─── */
+    #about {
+      padding: 7rem 8vw;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
+    }
+
+    .about-gallery {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: .8rem;
+    }
+    .about-gallery img {
+      width: 100%; border-radius: 5px;
+      object-fit: cover;
+    }
+    .about-gallery img:first-child {
+      grid-column: span 2; height: 280px;
+    }
+    .about-gallery img:not(:first-child) { height: 180px; }
+
+    .about-copy { display: flex; flex-direction: column; gap: 1.4rem; }
+    .about-copy p {
+      font-size: .93rem; color: var(--ink-md);
+      font-weight: 300; line-height: 1.9;
+    }
+
+    .about-pills {
+      display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .4rem;
+    }
+    .pill {
+      border: 1px solid var(--sage-lt);
+      border-radius: 50px; padding: .35rem 1rem;
+      font-size: .75rem; color: var(--ink-md); letter-spacing: .05em;
+    }
+
+    /* ─── SPACE ─── */
+    #space { padding: 6rem 8vw; background: var(--sand); }
+
+    .space-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 3rem;
+    }
+    .space-header-text { display: flex; flex-direction: column; gap: .7rem; }
+    .space-header p {
+      font-size: .9rem; color: var(--ink-md);
+      max-width: 380px; font-weight: 300; line-height: 1.8;
+    }
+
+    .space-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 1rem;
+    }
+    .space-card {
+      border-radius: 6px; overflow: hidden;
+      position: relative; cursor: pointer;
+    }
+    .space-card img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform .5s ease;
+    }
+    .space-card:hover img { transform: scale(1.04); }
+    .space-card:first-child {
+      grid-row: span 2; min-height: 480px;
+    }
+    .space-card:not(:first-child) { height: 230px; }
+
+    .space-card-label {
+      position: absolute; bottom: 1rem; left: 1rem;
+      background: rgba(254,252,249,.88);
+      backdrop-filter: blur(8px);
+      padding: .45rem 1rem; border-radius: 3px;
+      font-size: .75rem; letter-spacing: .08em;
+      color: var(--ink); font-weight: 500;
+    }
+
+    /* ─── MENU ─── */
+    #menu { padding: 7rem 8vw; }
+
+    .menu-hd {
+      text-align: center; display: flex; flex-direction: column;
+      align-items: center; gap: .8rem; margin-bottom: 3.5rem;
+    }
+    .menu-hd p {
+      font-size: .9rem; color: var(--ink-md);
+      max-width: 440px; font-weight: 300; line-height: 1.8;
+    }
+
+    .menu-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.8rem;
+    }
+
+    .menu-card {
+      border: 1px solid var(--sage-lt); border-radius: 8px;
+      overflow: hidden; background: var(--paper);
+      transition: transform .3s, box-shadow .3s;
+    }
+    .menu-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(42,35,24,.1);
+    }
+
+    .menu-card-photo {
+      width: 100%; height: 190px; object-fit: cover;
+    }
+    .menu-card-ph {
+      width: 100%; height: 190px;
+      background: var(--sage-lt);
+      display: flex; align-items: center;
+      justify-content: center; font-size: 2.8rem;
+    }
+
+    .menu-card-body { padding: 1.4rem; }
+    .menu-card-cat {
+      font-size: .68rem; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--sage); margin-bottom: .4rem;
+    }
+    .menu-card-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; color: var(--ink); margin-bottom: .5rem;
+    }
+    .menu-card-desc {
+      font-size: .82rem; color: var(--ink-lt); line-height: 1.7;
+    }
+    .menu-card-ft {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: .9rem 1.4rem; border-top: 1px solid var(--sage-lt);
+    }
+    .menu-card-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; color: var(--ink);
+    }
+    .menu-card-price sup {
+      font-size: .7rem; font-family: 'DM Sans', sans-serif; color: var(--ink-lt);
+    }
+    .plus-btn {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: var(--sage); color: white; border: none;
+      font-size: 1.1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .3s, transform .2s;
+    }
+    .plus-btn:hover { background: var(--ink); transform: scale(1.1); }
+
+    /* ─── VIBE ─── */
+    #vibe {
+      padding: 7rem 8vw;
+      background: var(--ink); color: var(--sand);
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
+    }
+
+    .vibe-copy { display: flex; flex-direction: column; gap: 1.4rem; }
+    #vibe .eyebrow { color: var(--clay-lt); }
+    #vibe .sec-title { color: var(--sand); }
+    #vibe .sec-title em { color: var(--sage-lt); }
+    .vibe-copy p {
+      font-size: .93rem; color: rgba(242,237,228,.7);
+      font-weight: 300; line-height: 1.9;
+    }
+
+    .vibe-features { list-style: none; display: flex; flex-direction: column; gap: 1.1rem; margin-top: .4rem; }
+    .vibe-feature {
+      display: flex; gap: .9rem; align-items: flex-start;
+    }
+    .vf-icon {
+      width: 34px; height: 34px;
+      background: rgba(200,213,188,.12);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+    }
+    .vf-text strong {
+      display: block; font-size: .86rem; color: var(--sand);
+      font-weight: 500; margin-bottom: .15rem;
+    }
+    .vf-text p { font-size: .8rem; color: rgba(242,237,228,.55); margin: 0; }
+
+    .vibe-img-col {
+      display: flex; flex-direction: column; gap: .8rem;
+    }
+    .vibe-img-col img {
+      width: 100%; border-radius: 5px; object-fit: cover;
+    }
+    .vibe-img-col img:first-child { height: 280px; }
+    .vibe-img-col img:last-child { height: 160px; }
+
+    /* ─── WORDS ─── */
+    #words {
+      padding: 7rem 8vw; background: var(--paper);
+    }
+    .words-hd {
+      text-align: center; display: flex; flex-direction: column;
+      align-items: center; gap: .8rem; margin-bottom: 3.5rem;
+    }
+
+    .words-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.6rem; }
+
+    .word-card {
+      background: var(--white);
+      border: 1px solid var(--sage-lt);
+      border-radius: 8px; padding: 2rem;
+      display: flex; flex-direction: column; gap: 1.2rem;
+    }
+    .word-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem; font-style: italic;
+      color: var(--ink-md); line-height: 1.75;
+    }
+    .word-open { font-size: 2rem; color: var(--sage-lt); line-height: 1; }
+    .word-author {
+      display: flex; align-items: center; gap: .9rem;
+      border-top: 1px solid var(--sage-lt); padding-top: 1rem;
+    }
+    .word-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--sage); color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 600;
+      flex-shrink: 0;
+    }
+    .word-name { font-size: .85rem; font-weight: 500; color: var(--ink); }
+    .word-role { font-size: .74rem; color: var(--ink-lt); }
+    .word-stars { color: var(--clay); font-size: .8rem; letter-spacing: .1em; }
+
+    /* ─── FIND US ─── */
+    #find {
+      padding: 7rem 8vw;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
+    }
+
+    .find-copy { display: flex; flex-direction: column; gap: 1.4rem; }
+    .find-copy p { font-size: .93rem; color: var(--ink-md); font-weight: 300; line-height: 1.9; }
+
+    .info-rows { list-style: none; display: flex; flex-direction: column; gap: .9rem; }
+    .info-row { display: flex; gap: .9rem; align-items: center; font-size: .88rem; color: var(--ink-md); }
+    .info-row-icon { color: var(--sage); font-size: 1.1rem; width: 22px; text-align: center; }
+
+    .map-box {
+      background: var(--sand); border-radius: 8px; height: 360px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 1rem;
+      border: 2px dashed rgba(138,155,123,.35);
+      color: var(--ink-lt); font-size: .84rem; letter-spacing: .05em;
+      position: relative; overflow: hidden;
+    }
+    .map-box::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(138,155,123,.1) 39px,rgba(138,155,123,.1) 40px),
+        repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(138,155,123,.1) 39px,rgba(138,155,123,.1) 40px);
+    }
+    .map-pin-big { font-size: 2.6rem; position: relative; z-index: 1; }
+    .map-box span { position: relative; z-index: 1; text-align: center; line-height: 1.6; }
+
+    /* ─── SUBSCRIBE ─── */
+    #subscribe {
+      padding: 6rem 8vw; background: var(--sage);
+      color: white;
+      display: flex; flex-direction: column;
+      align-items: center; text-align: center; gap: 1.2rem;
+    }
+    #subscribe .eyebrow { color: var(--sage-lt); letter-spacing: .22em; }
+    .sub-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.7rem, 2.8vw, 2.6rem);
+      font-weight: 400; color: white; line-height: 1.3;
+    }
+    .sub-title em { font-style: italic; color: var(--sand); }
+    .sub-desc { font-size: .88rem; color: rgba(255,255,255,.75); max-width: 400px; line-height: 1.8; font-weight: 300; }
+    .sub-form {
+      display: flex; max-width: 420px; width: 100%;
+      border-radius: 4px; overflow: hidden;
+      box-shadow: 0 6px 24px rgba(42,35,24,.15);
+      margin-top: .6rem;
+    }
+    .sub-input {
+      flex: 1; padding: .9rem 1.1rem; border: none;
+      background: white; font-size: .88rem;
+      color: var(--ink); outline: none; font-family: inherit;
+    }
+    .sub-input::placeholder { color: var(--ink-lt); }
+    .sub-btn {
+      background: var(--ink); color: var(--sand);
+      border: none; padding: .9rem 1.4rem;
+      font-size: .76rem; letter-spacing: .12em;
+      text-transform: uppercase; cursor: pointer;
+      white-space: nowrap; transition: background .3s;
+    }
+    .sub-btn:hover { background: var(--ink-md); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--ink);
+      color: rgba(242,237,228,.6);
+      padding: 4rem 8vw 2rem;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3.5rem; margin-bottom: 3rem;
+    }
+    .footer-brand .logo { color: var(--sand); display: inline-block; margin-bottom: .9rem; }
+    .footer-brand p { font-size: .84rem; line-height: 1.8; max-width: 260px; }
+    .footer-socials { display: flex; gap: .7rem; margin-top: 1.4rem; }
+    .soc {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: rgba(242,237,228,.08);
+      border: 1px solid rgba(242,237,228,.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .88rem; cursor: pointer; color: rgba(242,237,228,.6);
+      text-decoration: none; transition: background .3s;
+    }
+    .soc:hover { background: var(--sage); border-color: var(--sage); color: white; }
+
+    .footer-col h4 {
+      font-size: .75rem; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--sage);
+      margin-bottom: 1.1rem; font-weight: 500;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .65rem; }
+    .footer-col a {
+      color: rgba(242,237,228,.55); text-decoration: none;
+      font-size: .84rem; transition: color .3s;
+    }
+    .footer-col a:hover { color: var(--sand); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(242,237,228,.1);
+      padding-top: 1.4rem;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: .76rem; color: rgba(242,237,228,.35);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 960px) {
+      #hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { height: 55vw; min-height: 280px; }
+      .hero-right { padding: 3rem 6vw; }
+      #about, #vibe, #find { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 6vw; }
+      .about-gallery img:first-child { height: 220px; }
+      .space-grid { grid-template-columns: 1fr 1fr; }
+      .space-card:first-child { grid-column: span 2; grid-row: span 1; min-height: 260px; }
+      .space-card:not(:first-child) { height: 200px; }
+      .menu-grid, .words-grid { grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+      .nav-links { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      .menu-grid, .words-grid { grid-template-columns: 1fr; }
+      .space-grid { grid-template-columns: 1fr; }
+      .space-card:first-child { grid-column: span 1; min-height: 220px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-bottom { flex-direction: column; gap: .5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="#" class="logo">Murmur <span>Coffee</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">關於我們</a></li>
+      <li><a href="#space">空間</a></li>
+      <li><a href="#menu">菜單</a></li>
+      <li><a href="#vibe">氛圍</a></li>
+      <li><a href="#find">找到我們</a></li>
+      <li><a href="#subscribe" class="nav-reserve">訂閱</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-left">
+      <img src="photo_2026-06-05_15-18-57.jpg" alt="Murmur Coffee 咖啡廳空間" />
+      <div class="hero-left-overlay"></div>
+    </div>
+    <div class="hero-right">
+      <p class="hero-tag">台北 · 文青咖啡廳</p>
+      <h1 class="hero-title">
+        說說話，<br>喝杯<em>好咖啡</em>
+      </h1>
+      <p class="hero-sub">
+        Murmur 是一個可以輕聲細語的地方。<br>
+        翻開書、打開電腦，或者什麼都不做——<br>
+        只要在這裡，就好。
+      </p>
+      <div class="hero-btns">
+        <a href="#menu" class="btn-fill">看看菜單</a>
+        <a href="#about" class="btn-line">我們的故事</a>
+      </div>
+      <p class="hero-note">每日 9:00 — 21:00 營業中</p>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span class="ticker-item">手沖 Pour Over <span class="ticker-sep"></span></span>
+      <span class="ticker-item">精品單品豆 Specialty Coffee <span class="ticker-sep"></span></span>
+      <span class="ticker-item">在地甜點 Local Pastry <span class="ticker-sep"></span></span>
+      <span class="ticker-item">慢工作空間 Work-friendly <span class="ticker-sep"></span></span>
+      <span class="ticker-item">週末音樂小聚 Weekend Sessions <span class="ticker-sep"></span></span>
+      <span class="ticker-item">貓咪友善 Cat Friendly <span class="ticker-sep"></span></span>
+      <span class="ticker-item">手沖 Pour Over <span class="ticker-sep"></span></span>
+      <span class="ticker-item">精品單品豆 Specialty Coffee <span class="ticker-sep"></span></span>
+      <span class="ticker-item">在地甜點 Local Pastry <span class="ticker-sep"></span></span>
+      <span class="ticker-item">慢工作空間 Work-friendly <span class="ticker-sep"></span></span>
+      <span class="ticker-item">週末音樂小聚 Weekend Sessions <span class="ticker-sep"></span></span>
+      <span class="ticker-item">貓咪友善 Cat Friendly <span class="ticker-sep"></span></span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-gallery">
+      <img src="photo_2026-06-05_15-19-02.jpg" alt="咖啡廳內部" />
+      <img src="photo_2026-06-05_15-19-05.jpg" alt="咖啡特寫" />
+      <img src="photo_2026-06-05_15-19-08.jpg" alt="甜點與咖啡" />
+    </div>
+    <div class="about-copy">
+      <p class="eyebrow">我們的故事</p>
+      <h2 class="sec-title">開一間<em>讓人</em><br>想久坐的店</h2>
+      <p>
+        Murmur Coffee 在 2019 年開在台北大安的老公寓一樓。
+        兩個喜歡咖啡的朋友，把這個空間改造成一個不趕人、不催單、
+        讓你可以從早坐到傍晚的地方。
+      </p>
+      <p>
+        我們選用台灣小農合作的在地食材，搭配每個月手選的莊園豆，
+        做出有個性、有溫度的飲品與甜點。
+        沒有制服，沒有制式服務，只有真心的招待。
+      </p>
+      <div class="about-pills">
+        <span class="pill">🌿 在地食材</span>
+        <span class="pill">☕ 莊園單品</span>
+        <span class="pill">📚 書籍共享</span>
+        <span class="pill">🐈 貓咪常駐</span>
+        <span class="pill">💻 工作友善</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPACE -->
+  <section id="space">
+    <div class="space-header">
+      <div class="space-header-text">
+        <p class="eyebrow">空間介紹</p>
+        <h2 class="sec-title">每個角落<br>都是<em>秘密基地</em></h2>
+        <p>日系老屋改建，保留了木窗框和磨石子地板，搭配植栽與二手傢俱，走進來就不想出去。</p>
+      </div>
+    </div>
+    <div class="space-grid">
+      <div class="space-card">
+        <img src="photo_2026-06-05_15-18-57.jpg" alt="大廳角落" />
+        <span class="space-card-label">主廳 · 開放座位</span>
+      </div>
+      <div class="space-card">
+        <img src="photo_2026-06-05_15-19-11.jpg" alt="吧台區域" />
+        <span class="space-card-label">吧台 · 觀看沖煮</span>
+      </div>
+      <div class="space-card">
+        <img src="photo_2026-06-05_15-19-02.jpg" alt="窗邊座位" />
+        <span class="space-card-label">窗邊 · 日光角落</span>
+      </div>
+      <div class="space-card">
+        <img src="photo_2026-06-05_15-19-05.jpg" alt="書牆" />
+        <span class="space-card-label">書牆 · 共享書架</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section id="menu">
+    <div class="menu-hd">
+      <p class="eyebrow">我們的菜單</p>
+      <h2 class="sec-title">簡單的食物，<em>認真的心意</em></h2>
+      <p>每款飲品都用當季食材調配，甜點來自巷口阿嬤傳授的古早配方，加上我們的小改良。</p>
+    </div>
+    <div class="menu-grid">
+
+      <div class="menu-card">
+        <img class="menu-card-photo" src="photo_2026-06-05_15-19-08.jpg" alt="手沖單品" />
+        <div class="menu-card-body">
+          <p class="menu-card-cat">Pour Over</p>
+          <h3 class="menu-card-name">手沖當季單品</h3>
+          <p class="menu-card-desc">每週換豆，今日產地：衣索比亞 Yirgacheffe。明亮茉莉花香，尾韻帶柑橘酸甜。</p>
+        </div>
+        <div class="menu-card-ft">
+          <div class="menu-card-price"><sup>NT$</sup>190</div>
+          <button class="plus-btn" aria-label="加入訂單">+</button>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card-ph">☕</div>
+        <div class="menu-card-body">
+          <p class="menu-card-cat">Signature Latte</p>
+          <h3 class="menu-card-name">黑糖燕麥拿鐵</h3>
+          <p class="menu-card-desc">台南古坑黑糖加上燕麥奶，搭配雙份濃縮，溫潤甘甜又不膩口，秋冬限定款。</p>
+        </div>
+        <div class="menu-card-ft">
+          <div class="menu-card-price"><sup>NT$</sup>165</div>
+          <button class="plus-btn" aria-label="加入訂單">+</button>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card-ph">🧊</div>
+        <div class="menu-card-body">
+          <p class="menu-card-cat">Cold Brew</p>
+          <h3 class="menu-card-name">24h 冷萃淡水黑</h3>
+          <p class="menu-card-desc">肯亞 AA 豆低溫浸泡整整一天，深邃的黑巧克力香氣，回甘悠長，咖啡癮人必點。</p>
+        </div>
+        <div class="menu-card-ft">
+          <div class="menu-card-price"><sup>NT$</sup>175</div>
+          <button class="plus-btn" aria-label="加入訂單">+</button>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <img class="menu-card-photo" src="photo_2026-06-05_15-19-11.jpg" alt="甜點" />
+        <div class="menu-card-body">
+          <p class="menu-card-cat">Pastry</p>
+          <h3 class="menu-card-name">老奶奶磅蛋糕</h3>
+          <p class="menu-card-desc">用鄰居阿嬤的配方，加了一把台灣烏龍茶葉，每天早上現烤，賣完為止。</p>
+        </div>
+        <div class="menu-card-ft">
+          <div class="menu-card-price"><sup>NT$</sup>110</div>
+          <button class="plus-btn" aria-label="加入訂單">+</button>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card-ph">🥐</div>
+        <div class="menu-card-body">
+          <p class="menu-card-cat">Breakfast</p>
+          <h3 class="menu-card-name">蛋奶吐司套餐</h3>
+          <p class="menu-card-desc">厚片白吐司搭配奶油炒蛋，附小農沙拉與當日特調飲品一杯，早鳥九點前特價。</p>
+        </div>
+        <div class="menu-card-ft">
+          <div class="menu-card-price"><sup>NT$</sup>220</div>
+          <button class="plus-btn" aria-label="加入訂單">+</button>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card-ph">🍵</div>
+        <div class="menu-card-body">
+          <p class="menu-card-cat">Non-Coffee</p>
+          <h3 class="menu-card-name">薑黃豆奶拿鐵</h3>
+          <p class="menu-card-desc">屏東有機薑黃粉配上本地豆製豆奶，帶著土地的溫暖，咖啡因零也能感受幸福。</p>
+        </div>
+        <div class="menu-card-ft">
+          <div class="menu-card-price"><sup>NT$</sup>155</div>
+          <button class="plus-btn" aria-label="加入訂單">+</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- VIBE -->
+  <section id="vibe">
+    <div class="vibe-copy">
+      <p class="eyebrow">來這裡做什麼</p>
+      <h2 class="sec-title">什麼都行，<br><em>或什麼都不做</em></h2>
+      <p>
+        Murmur 沒有最低消費，沒有翻桌壓力。
+        你可以在這裡辦公、閱讀、發呆，或者只是來坐著聞咖啡香。
+        我們只希望你在這裡可以真正放鬆下來。
+      </p>
+      <ul class="vibe-features">
+        <li class="vibe-feature">
+          <div class="vf-icon">📶</div>
+          <div class="vf-text">
+            <strong>高速 Wi-Fi 全日免費</strong>
+            <p>密碼就貼在杯墊上，不用開口問。</p>
+          </div>
+        </li>
+        <li class="vibe-feature">
+          <div class="vf-icon">🔌</div>
+          <div class="vf-text">
+            <strong>每桌都有插座</strong>
+            <p>從早到晚都可以安心充電，人跟手機都一樣。</p>
+          </div>
+        </li>
+        <li class="vibe-feature">
+          <div class="vf-icon">📖</div>
+          <div class="vf-text">
+            <strong>書牆免費共享</strong>
+            <p>三百本書，主題從文學到植物誌都有。喜歡的話捐一本也歡迎。</p>
+          </div>
+        </li>
+        <li class="vibe-feature">
+          <div class="vf-icon">🎵</div>
+          <div class="vf-text">
+            <strong>週六下午 Live Session</strong>
+            <p>每個月邀請獨立音樂人來這裡小演出，很輕鬆那種。</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="vibe-img-col">
+      <img src="photo_2026-06-05_15-19-05.jpg" alt="咖啡廳氛圍" />
+      <img src="photo_2026-06-05_15-19-11.jpg" alt="細節" />
+    </div>
+  </section>
+
+  <!-- WORDS -->
+  <section id="words">
+    <div class="words-hd">
+      <p class="eyebrow">常客怎麼說</p>
+      <h2 class="sec-title">真實的<em>溫度</em></h2>
+    </div>
+    <div class="words-grid">
+
+      <div class="word-card">
+        <div class="word-open">"</div>
+        <p class="word-quote">每次打不出稿子就跑來這裡。不知道是咖啡的緣故還是這個空間，反正每次都能寫完。</p>
+        <div class="word-author">
+          <div class="word-avatar">柔</div>
+          <div>
+            <div class="word-name">小柔</div>
+            <div class="word-role">自由撰稿人</div>
+          </div>
+          <div class="word-stars" style="margin-left:auto">★★★★★</div>
+        </div>
+      </div>
+
+      <div class="word-card">
+        <div class="word-open">"</div>
+        <p class="word-quote">台北找到一間不催你走的咖啡廳真的不容易。手沖豆子每次都不一樣，很好奇下次是哪個莊園。</p>
+        <div class="word-author">
+          <div class="word-avatar">翔</div>
+          <div>
+            <div class="word-name">阿翔</div>
+            <div class="word-role">設計師</div>
+          </div>
+          <div class="word-stars" style="margin-left:auto">★★★★★</div>
+        </div>
+      </div>
+
+      <div class="word-card">
+        <div class="word-open">"</div>
+        <p class="word-quote">老奶奶磅蛋糕是真的會讓你後悔沒有早點來、然後下次一定要早點來的那種東西。</p>
+        <div class="word-author">
+          <div class="word-avatar">安</div>
+          <div>
+            <div class="word-name">Amber</div>
+            <div class="word-role">學生 / 常客</div>
+          </div>
+          <div class="word-stars" style="margin-left:auto">★★★★★</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FIND US -->
+  <section id="find">
+    <div class="find-copy">
+      <p class="eyebrow">找到我們</p>
+      <h2 class="sec-title">我們在<br><em>大安的巷子裡</em></h2>
+      <p>從捷運大安站 4 號出口走路大約五分鐘，找到那棟爬滿薜荔的老公寓就到了。</p>
+      <ul class="info-rows">
+        <li class="info-row">
+          <span class="info-row-icon">📍</span>
+          台北市大安區和平東路二段 78 巷 5 號 1F
+        </li>
+        <li class="info-row">
+          <span class="info-row-icon">🕘</span>
+          週一至週五　09:00 — 21:00
+        </li>
+        <li class="info-row">
+          <span class="info-row-icon">🕘</span>
+          週六、日　10:00 — 22:00
+        </li>
+        <li class="info-row">
+          <span class="info-row-icon">📞</span>
+          02-2732-0000
+        </li>
+        <li class="info-row">
+          <span class="info-row-icon">🚇</span>
+          MRT 大安站 4 號出口，步行 5 分鐘
+        </li>
+      </ul>
+    </div>
+    <div class="map-box">
+      <div class="map-pin-big">📍</div>
+      <span>台北市大安區<br>和平東路二段 78 巷 5 號</span>
+    </div>
+  </section>
+
+  <!-- SUBSCRIBE -->
+  <section id="subscribe">
+    <p class="eyebrow">保持聯絡</p>
+    <h2 class="sub-title">訂閱我們，<em>不定期驚喜</em></h2>
+    <p class="sub-desc">換豆通知、限定活動、偶爾的私心推薦——我們不常寄，但寄了都值得打開。</p>
+    <form class="sub-form" onsubmit="return false">
+      <input class="sub-input" type="email" placeholder="your@email.com" aria-label="電子信箱" />
+      <button class="sub-btn" type="submit">訂閱</button>
+    </form>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo">Murmur <span>Coffee</span></a>
+        <p>台北大安的一個小角落，歡迎你帶著自己的故事進來，順便喝杯好咖啡。</p>
+        <div class="footer-socials">
+          <a href="#" class="soc" aria-label="Instagram">📷</a>
+          <a href="#" class="soc" aria-label="Facebook">📘</a>
+          <a href="#" class="soc" aria-label="Email">✉️</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>探索</h4>
+        <ul>
+          <li><a href="#about">關於我們</a></li>
+          <li><a href="#space">空間介紹</a></li>
+          <li><a href="#menu">菜單</a></li>
+          <li><a href="#vibe">氛圍</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>服務</h4>
+        <ul>
+          <li><a href="#">包場租借</a></li>
+          <li><a href="#">咖啡豆外帶</a></li>
+          <li><a href="#">甜點訂製</a></li>
+          <li><a href="#">音樂活動</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>聯絡</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="mailto:hi@murmurcoffee.tw">hi@murmurcoffee.tw</a></li>
+          <li><a href="#">02-2732-0000</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Murmur Coffee. All rights reserved.</span>
+      <span>台北市大安區和平東路二段 78 巷 5 號</span>
+    </div>
+  </footer>
+
+  <script>
+    // Nav scroll effect
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    });
+  </script>
+</body>
+</html>

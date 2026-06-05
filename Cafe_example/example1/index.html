@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saori Coffee — 每一杯，都是故事的開始</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+TC:wght@300;400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --cream: #F7F1E8;
+      --warm-white: #FDFAF5;
+      --espresso: #2C1A0E;
+      --latte: #8B6347;
+      --mocha: #5C3D2E;
+      --caramel: #C49A6C;
+      --mist: #E8DDD0;
+      --text-primary: #1E1209;
+      --text-secondary: #6B4F3A;
+      --text-light: #9E8270;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', 'Noto Serif TC', sans-serif;
+      background-color: var(--warm-white);
+      color: var(--text-primary);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 5vw;
+      background: rgba(253, 250, 245, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(196, 154, 108, 0.2);
+      transition: box-shadow 0.3s;
+    }
+
+    nav.scrolled {
+      box-shadow: 0 2px 20px rgba(44, 26, 14, 0.08);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--espresso);
+      letter-spacing: 0.04em;
+      text-decoration: none;
+    }
+
+    .nav-logo span {
+      color: var(--caramel);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--espresso);
+    }
+
+    .nav-cta {
+      background: var(--espresso);
+      color: var(--cream) !important;
+      padding: 0.55rem 1.4rem;
+      border-radius: 2px;
+      transition: background 0.3s !important;
+    }
+
+    .nav-cta:hover {
+      background: var(--mocha) !important;
+      color: var(--cream) !important;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding-top: 80px;
+    }
+
+    .hero-content {
+      padding: 6rem 5vw 6rem 8vw;
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--caramel);
+      font-weight: 500;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 5vw, 5.2rem);
+      font-weight: 300;
+      line-height: 1.12;
+      color: var(--espresso);
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--latte);
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+      max-width: 420px;
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+      margin-top: 0.5rem;
+    }
+
+    .btn-primary {
+      background: var(--espresso);
+      color: var(--cream);
+      border: none;
+      padding: 0.9rem 2.2rem;
+      font-size: 0.82rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.3s, transform 0.2s;
+      border-radius: 2px;
+    }
+
+    .btn-primary:hover {
+      background: var(--mocha);
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid var(--mist);
+      padding: 0.9rem 2.2rem;
+      font-size: 0.82rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: border-color 0.3s, color 0.3s;
+      border-radius: 2px;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--caramel);
+      color: var(--espresso);
+    }
+
+    .hero-image-wrap {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .hero-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .hero-image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, var(--warm-white) 0%, transparent 30%);
+    }
+
+    .hero-badge {
+      position: absolute;
+      bottom: 3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(253, 250, 245, 0.92);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(196, 154, 108, 0.3);
+      padding: 1rem 1.8rem;
+      text-align: center;
+      border-radius: 4px;
+    }
+
+    .hero-badge .badge-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--espresso);
+      display: block;
+    }
+
+    .hero-badge .badge-text {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-light);
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-bar {
+      background: var(--espresso);
+      color: var(--cream);
+      padding: 0.9rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .marquee-track {
+      display: inline-flex;
+      gap: 3rem;
+      animation: marquee 20s linear infinite;
+    }
+
+    .marquee-item {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .marquee-dot {
+      width: 4px;
+      height: 4px;
+      background: var(--caramel);
+      border-radius: 50%;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      padding: 7rem 8vw;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .about-images {
+      position: relative;
+      height: 520px;
+    }
+
+    .about-img-main {
+      width: 72%;
+      height: 420px;
+      object-fit: cover;
+      border-radius: 4px;
+      box-shadow: 0 20px 60px rgba(44, 26, 14, 0.15);
+    }
+
+    .about-img-accent {
+      width: 50%;
+      height: 240px;
+      object-fit: cover;
+      border-radius: 4px;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      border: 5px solid var(--warm-white);
+      box-shadow: 0 12px 40px rgba(44, 26, 14, 0.12);
+    }
+
+    .about-label {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: var(--caramel);
+      color: white;
+      padding: 0.6rem 1rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border-radius: 2px;
+    }
+
+    .about-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .section-eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--caramel);
+      font-weight: 500;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      font-weight: 300;
+      line-height: 1.2;
+      color: var(--espresso);
+    }
+
+    .section-title em {
+      font-style: italic;
+      color: var(--latte);
+    }
+
+    .about-text p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.9;
+      font-weight: 300;
+    }
+
+    .about-stats {
+      display: flex;
+      gap: 2.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--mist);
+      margin-top: 0.5rem;
+    }
+
+    .stat-item .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: var(--espresso);
+      line-height: 1;
+    }
+
+    .stat-item .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      letter-spacing: 0.1em;
+      margin-top: 0.3rem;
+    }
+
+    /* ── MENU ── */
+    #menu {
+      padding: 7rem 8vw;
+      background: var(--cream);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .section-desc {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      max-width: 480px;
+      line-height: 1.8;
+      font-weight: 300;
+    }
+
+    .menu-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      margin-bottom: 3rem;
+      border: 1px solid var(--mist);
+      border-radius: 4px;
+      overflow: hidden;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .menu-tab {
+      padding: 0.7rem 1.8rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .menu-tab.active,
+    .menu-tab:hover {
+      background: var(--espresso);
+      color: var(--cream);
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .menu-card {
+      background: var(--warm-white);
+      border-radius: 6px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px rgba(44, 26, 14, 0.12);
+    }
+
+    .menu-card-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      background: var(--mist);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+
+    .menu-card-body {
+      padding: 1.5rem;
+    }
+
+    .menu-card-tag {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--caramel);
+      margin-bottom: 0.5rem;
+    }
+
+    .menu-card-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 400;
+      color: var(--espresso);
+      margin-bottom: 0.5rem;
+    }
+
+    .menu-card-desc {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      line-height: 1.7;
+    }
+
+    .menu-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--mist);
+    }
+
+    .menu-card-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--espresso);
+    }
+
+    .menu-card-price span {
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: var(--text-light);
+    }
+
+    .add-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--espresso);
+      color: var(--cream);
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .add-btn:hover {
+      background: var(--caramel);
+      transform: scale(1.1);
+    }
+
+    /* ── EXPERIENCE ── */
+    #experience {
+      padding: 7rem 8vw;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .experience-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .experience-text p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.9;
+      font-weight: 300;
+    }
+
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin-top: 0.5rem;
+    }
+
+    .feature-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .feature-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--cream);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .feature-item-text strong {
+      display: block;
+      font-size: 0.88rem;
+      color: var(--espresso);
+      font-weight: 500;
+      margin-bottom: 0.2rem;
+    }
+
+    .feature-item-text p {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      margin: 0;
+    }
+
+    .experience-visual {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 1rem;
+      height: 480px;
+    }
+
+    .exp-card {
+      border-radius: 6px;
+      overflow: hidden;
+      background: var(--mist);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+    }
+
+    .exp-card:first-child {
+      grid-row: span 2;
+    }
+
+    .exp-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ── TESTIMONIALS ── */
+    #testimonials {
+      padding: 7rem 8vw;
+      background: var(--espresso);
+      color: var(--cream);
+    }
+
+    #testimonials .section-header {
+      color: var(--cream);
+    }
+
+    #testimonials .section-eyebrow {
+      color: var(--caramel);
+    }
+
+    #testimonials .section-title {
+      color: var(--cream);
+    }
+
+    #testimonials .section-desc {
+      color: rgba(247, 241, 232, 0.7);
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 1rem;
+    }
+
+    .testimonial-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(196, 154, 108, 0.2);
+      border-radius: 6px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      transition: background 0.3s;
+    }
+
+    .testimonial-card:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .testimonial-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.7;
+      color: rgba(247, 241, 232, 0.9);
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .author-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--caramel);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: white;
+      font-weight: 600;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .author-name {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--cream);
+    }
+
+    .author-role {
+      font-size: 0.75rem;
+      color: rgba(247, 241, 232, 0.5);
+      letter-spacing: 0.05em;
+    }
+
+    .testimonial-stars {
+      color: var(--caramel);
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── LOCATION ── */
+    #location {
+      padding: 7rem 8vw;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .location-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .location-text p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.9;
+      font-weight: 300;
+    }
+
+    .info-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .info-item {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .info-icon {
+      width: 20px;
+      text-align: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+      color: var(--caramel);
+    }
+
+    .map-placeholder {
+      background: var(--mist);
+      border-radius: 8px;
+      height: 380px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      color: var(--text-light);
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      border: 2px dashed rgba(196, 154, 108, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(196, 154, 108, 0.08) 39px, rgba(196, 154, 108, 0.08) 40px),
+        repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(196, 154, 108, 0.08) 39px, rgba(196, 154, 108, 0.08) 40px);
+    }
+
+    .map-pin {
+      font-size: 2.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .map-label {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    /* ── NEWSLETTER ── */
+    #newsletter {
+      padding: 6rem 8vw;
+      background: var(--cream);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.5rem;
+    }
+
+    .newsletter-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 300;
+      color: var(--espresso);
+      line-height: 1.3;
+    }
+
+    .newsletter-title em {
+      font-style: italic;
+      color: var(--latte);
+    }
+
+    .newsletter-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      max-width: 420px;
+      line-height: 1.8;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 0;
+      max-width: 440px;
+      width: 100%;
+      margin-top: 0.5rem;
+      border: 1px solid var(--mist);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(44, 26, 14, 0.06);
+    }
+
+    .newsletter-input {
+      flex: 1;
+      padding: 0.9rem 1.2rem;
+      border: none;
+      background: var(--warm-white);
+      font-size: 0.88rem;
+      color: var(--text-primary);
+      outline: none;
+      font-family: inherit;
+    }
+
+    .newsletter-input::placeholder {
+      color: var(--text-light);
+    }
+
+    .newsletter-btn {
+      background: var(--espresso);
+      color: var(--cream);
+      border: none;
+      padding: 0.9rem 1.5rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.3s;
+    }
+
+    .newsletter-btn:hover {
+      background: var(--mocha);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--text-primary);
+      color: rgba(247, 241, 232, 0.7);
+      padding: 4rem 8vw 2rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 4rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-brand .nav-logo {
+      color: var(--cream);
+      font-size: 1.8rem;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+
+    .footer-brand p {
+      font-size: 0.85rem;
+      line-height: 1.8;
+      max-width: 280px;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .social-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(247, 241, 232, 0.08);
+      border: 1px solid rgba(247, 241, 232, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.3s;
+      color: rgba(247, 241, 232, 0.7);
+      text-decoration: none;
+    }
+
+    .social-btn:hover {
+      background: var(--caramel);
+      border-color: var(--caramel);
+      color: white;
+    }
+
+    .footer-col h4 {
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--caramel);
+      margin-bottom: 1.2rem;
+      font-weight: 500;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .footer-col a {
+      color: rgba(247, 241, 232, 0.6);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.3s;
+    }
+
+    .footer-col a:hover {
+      color: var(--cream);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(247, 241, 232, 0.1);
+      padding-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      color: rgba(247, 241, 232, 0.4);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      #hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+
+      .hero-image-wrap {
+        height: 55vw;
+        min-height: 300px;
+      }
+
+      .hero-content {
+        padding: 3rem 6vw;
+      }
+
+      #about, #experience, #location {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        padding: 5rem 6vw;
+      }
+
+      .about-images {
+        height: 350px;
+      }
+
+      .menu-grid, .testimonial-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 2.5rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .menu-grid, .testimonial-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      #menu, #testimonials, #newsletter {
+        padding: 5rem 6vw;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+      }
+
+      .experience-visual {
+        height: 280px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">Saori <span>Coffee</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">關於我們</a></li>
+      <li><a href="#menu">菜單</a></li>
+      <li><a href="#experience">體驗</a></li>
+      <li><a href="#location">找到我們</a></li>
+      <li><a href="#newsletter" class="nav-cta">訂閱優惠</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-content">
+      <p class="hero-eyebrow">精品咖啡 · 台灣職人手作</p>
+      <h1 class="hero-title">
+        每一杯<br><em>都是故事</em><br>的開始
+      </h1>
+      <p class="hero-subtitle">
+        從莊園到杯中，我們堅持每道工序的溫度。
+        在這裡，時間慢下來，讓香氣帶你出走。
+      </p>
+      <div class="hero-actions">
+        <a href="#menu" class="btn-primary">探索菜單</a>
+        <a href="#about" class="btn-ghost">我們的故事</a>
+      </div>
+    </div>
+    <div class="hero-image-wrap">
+      <img src="2606041319161961133892.jpg" alt="Saori Coffee 咖啡廳氛圍" />
+      <div class="hero-image-overlay"></div>
+      <div class="hero-badge">
+        <span class="badge-num">8+</span>
+        <span class="badge-text">年職人烘焙經驗</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-bar" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="marquee-item">Single Origin Espresso <span class="marquee-dot"></span></span>
+      <span class="marquee-item">手沖 Pour Over <span class="marquee-dot"></span></span>
+      <span class="marquee-item">Cold Brew 冷萃 <span class="marquee-dot"></span></span>
+      <span class="marquee-item">職人甜點 Artisan Pastry <span class="marquee-dot"></span></span>
+      <span class="marquee-item">精品豆 Specialty Beans <span class="marquee-dot"></span></span>
+      <span class="marquee-item">包場活動 Private Events <span class="marquee-dot"></span></span>
+      <span class="marquee-item">Single Origin Espresso <span class="marquee-dot"></span></span>
+      <span class="marquee-item">手沖 Pour Over <span class="marquee-dot"></span></span>
+      <span class="marquee-item">Cold Brew 冷萃 <span class="marquee-dot"></span></span>
+      <span class="marquee-item">職人甜點 Artisan Pastry <span class="marquee-dot"></span></span>
+      <span class="marquee-item">精品豆 Specialty Beans <span class="marquee-dot"></span></span>
+      <span class="marquee-item">包場活動 Private Events <span class="marquee-dot"></span></span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-images">
+      <img class="about-img-main" src="2606041319161961133892.jpg" alt="咖啡廳內部空間" />
+      <img class="about-img-accent" src="2606041319161961133892.jpg" alt="咖啡師專注沖煮" />
+      <span class="about-label">Since 2016</span>
+    </div>
+    <div class="about-text">
+      <p class="section-eyebrow">我們的故事</p>
+      <h2 class="section-title">源自對<em>咖啡</em><br>的深刻著迷</h2>
+      <p>Saori Coffee 誕生於 2016 年的台北巷弄。創辦人 Saori 在日本習藝七年後，帶著對質感生活的堅持回到家鄉，用每一顆精挑細選的咖啡豆，訴說她對這片土地的愛。</p>
+      <p>我們相信咖啡不只是飲料，而是一種儀式。從生豆採購、莊園溯源、烘焙曲線調整到萃取技術，我們不妥協每個細節，只為那一刻的完美。</p>
+      <div class="about-stats">
+        <div class="stat-item">
+          <div class="stat-num">12+</div>
+          <div class="stat-label">合作莊園</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">3</div>
+          <div class="stat-label">門市據點</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">50k+</div>
+          <div class="stat-label">年服務人次</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section id="menu">
+    <div class="section-header">
+      <p class="section-eyebrow">我們的菜單</p>
+      <h2 class="section-title">精心設計的<em>每一口</em></h2>
+      <p class="section-desc">從經典義式到創意特調，每款飲品都是我們對完美的詮釋。</p>
+    </div>
+
+    <div class="menu-tabs">
+      <button class="menu-tab active">咖啡</button>
+      <button class="menu-tab">非咖啡</button>
+      <button class="menu-tab">甜點</button>
+    </div>
+
+    <div class="menu-grid">
+      <div class="menu-card">
+        <div class="menu-card-img">☕</div>
+        <div class="menu-card-body">
+          <p class="menu-card-tag">Espresso Series</p>
+          <h3 class="menu-card-name">Signature Latte</h3>
+          <p class="menu-card-desc">精選衣索比亞日曬豆，搭配自家特調奶泡，帶出莓果尾韻與絲滑口感。</p>
+        </div>
+        <div class="menu-card-footer">
+          <div class="menu-card-price">NT$160 <span>/ 中杯</span></div>
+          <button class="add-btn" aria-label="加入訂單">+</button>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card-img">🫗</div>
+        <div class="menu-card-body">
+          <p class="menu-card-tag">Pour Over</p>
+          <h3 class="menu-card-name">手沖當季單品</h3>
+          <p class="menu-card-desc">每週更換產地，以 Kalita Wave 搭配精準水溫，呈現豆子最純粹的風土特色。</p>
+        </div>
+        <div class="menu-card-footer">
+          <div class="menu-card-price">NT$200 <span>/ 單杯</span></div>
+          <button class="add-btn" aria-label="加入訂單">+</button>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card-img">🧊</div>
+        <div class="menu-card-body">
+          <p class="menu-card-tag">Cold Brew</p>
+          <h3 class="menu-card-name">18小時冷萃黑金</h3>
+          <p class="menu-card-desc">以肯亞 AA 豆浸泡 18 小時，低溫慢萃，呈現濃郁深邃的黑巧克力與核果香。</p>
+        </div>
+        <div class="menu-card-footer">
+          <div class="menu-card-price">NT$180 <span>/ 瓶</span></div>
+          <button class="add-btn" aria-label="加入訂單">+</button>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card-img">🌸</div>
+        <div class="menu-card-body">
+          <p class="menu-card-tag">Seasonal Special</p>
+          <h3 class="menu-card-name">玫瑰荔枝拿鐵</h3>
+          <p class="menu-card-desc">以大馬士革玫瑰糖漿搭配荔枝果泥，輕盈的花果調性與義式濃縮相得益彰。</p>
+        </div>
+        <div class="menu-card-footer">
+          <div class="menu-card-price">NT$175 <span>/ 中杯</span></div>
+          <button class="add-btn" aria-label="加入訂單">+</button>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card-img">🍮</div>
+        <div class="menu-card-body">
+          <p class="menu-card-tag">Artisan Pastry</p>
+          <h3 class="menu-card-name">焦糖布丁可頌</h3>
+          <p class="menu-card-desc">法式手作千層可頌，填入自製法式焦糖布丁內餡，外酥內軟，現烤現供。</p>
+        </div>
+        <div class="menu-card-footer">
+          <div class="menu-card-price">NT$120 <span>/ 個</span></div>
+          <button class="add-btn" aria-label="加入訂單">+</button>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card-img">🎂</div>
+        <div class="menu-card-body">
+          <p class="menu-card-tag">Dessert</p>
+          <h3 class="menu-card-name">提拉米蘇</h3>
+          <p class="menu-card-desc">以自家濃縮咖啡浸潤手指餅乾，搭配空氣感馬斯卡彭乳酪，經典中的經典。</p>
+        </div>
+        <div class="menu-card-footer">
+          <div class="menu-card-price">NT$150 <span>/ 份</span></div>
+          <button class="add-btn" aria-label="加入訂單">+</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="experience-text">
+      <p class="section-eyebrow">空間體驗</p>
+      <h2 class="section-title">一處讓時間<br><em>靜下來</em>的角落</h2>
+      <p>我們的空間不只是喝咖啡的地方。大面落地窗引入自然光，手作木質家具透著溫度，每個角落都是為你設計的。</p>
+      <ul class="feature-list">
+        <li class="feature-item">
+          <div class="feature-icon">🎵</div>
+          <div class="feature-item-text">
+            <strong>精選爵士選曲</strong>
+            <p>由店主親自策劃的 Playlist，讓耳朵也享受假期。</p>
+          </div>
+        </li>
+        <li class="feature-item">
+          <div class="feature-icon">📚</div>
+          <div class="feature-item-text">
+            <strong>選書牆 · 自由翻閱</strong>
+            <p>超過 200 本精選書籍，讓每次到訪都有新的收穫。</p>
+          </div>
+        </li>
+        <li class="feature-item">
+          <div class="feature-icon">🎨</div>
+          <div class="feature-item-text">
+            <strong>駐店藝術家合作</strong>
+            <p>每季更換的當代藝術展覽，讓咖啡廳成為你的小型藝廊。</p>
+          </div>
+        </li>
+        <li class="feature-item">
+          <div class="feature-icon">💻</div>
+          <div class="feature-item-text">
+            <strong>舒適工作角落</strong>
+            <p>高速 Wi-Fi、充電插座一應俱全，適合遠端工作者。</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="experience-visual">
+      <div class="exp-card">
+        <img src="2606041319161961133892.jpg" alt="咖啡廳空間" />
+      </div>
+      <div class="exp-card">☕</div>
+      <div class="exp-card">🌿</div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <div class="section-header">
+      <p class="section-eyebrow">顧客好評</p>
+      <h2 class="section-title">他們說的，<em>是真的</em></h2>
+      <p class="section-desc">來自每一位曾在這裡停留的朋友，真誠的分享。</p>
+    </div>
+
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-quote">「第一次喝到讓我感動的拿鐵。奶泡的綿密度和咖啡的平衡感，簡直無可挑剔。這裡已經是我每週固定報到的聖地。」</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">陳</div>
+          <div>
+            <div class="author-name">陳怡君</div>
+            <div class="author-role">設計師 · Google Maps 評論</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-quote">「空間設計非常有質感，不像一般連鎖咖啡廳的千篇一律。來這裡工作效率超高，而且咖啡真的很好喝，不會讓人焦慮。」</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">林</div>
+          <div>
+            <div class="author-name">林宇翔</div>
+            <div class="author-role">自由工作者 · IG 分享</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-quote">「手沖的當季單品真的會讓你重新認識咖啡。每次來都不同，店員解說得很詳細，感覺像是上了一堂很棒的風土課。」</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">王</div>
+          <div>
+            <div class="author-name">王佳慧</div>
+            <div class="author-role">咖啡愛好者 · 部落格文章</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOCATION -->
+  <section id="location">
+    <div class="location-text">
+      <p class="section-eyebrow">找到我們</p>
+      <h2 class="section-title">來這裡，<br><em>讓世界慢下來</em></h2>
+      <p>三個據點，都在你意想不到的巷弄裡。每家店有自己的個性，但都有同樣令你安心的溫度。</p>
+      <ul class="info-list">
+        <li class="info-item">
+          <span class="info-icon">📍</span>
+          <span>台北市大安區復興南路一段 123 巷 5 號<br><small style="color:var(--text-light)">（捷運大安站 2 號出口步行 3 分鐘）</small></span>
+        </li>
+        <li class="info-item">
+          <span class="info-icon">🕐</span>
+          <span>週一至週五 08:00 – 21:00<br>週六至週日 09:00 – 22:00</span>
+        </li>
+        <li class="info-item">
+          <span class="info-icon">📞</span>
+          <span>(02) 2700-0001</span>
+        </li>
+        <li class="info-item">
+          <span class="info-icon">✉️</span>
+          <span>hello@saoricoffee.com</span>
+        </li>
+      </ul>
+      <a href="#" class="btn-primary" style="margin-top:0.5rem; width:fit-content">查看所有據點</a>
+    </div>
+    <div class="map-placeholder" role="img" aria-label="地圖位置">
+      <div class="map-pin">📍</div>
+      <div class="map-label">
+        <strong style="color:var(--espresso); font-size:0.95rem;">Saori Coffee 大安本店</strong><br>
+        台北市大安區復興南路一段 123 巷 5 號
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section id="newsletter">
+    <p class="section-eyebrow">加入我們</p>
+    <h2 class="newsletter-title">訂閱，收到<em>第一手</em>好消息</h2>
+    <p class="newsletter-desc">新豆到貨通知、季節限定特調、會員專屬折扣，讓你永遠不錯過。</p>
+    <form class="newsletter-form" onsubmit="handleSubscribe(event)">
+      <input type="email" class="newsletter-input" placeholder="輸入你的 Email" required aria-label="電子郵件" />
+      <button type="submit" class="newsletter-btn">立即訂閱</button>
+    </form>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo">Saori <span>Coffee</span></a>
+        <p>源自對咖啡的深刻著迷，每一杯都承載著職人的心意與時間的重量。歡迎你來，慢慢喝。</p>
+        <div class="footer-social">
+          <a href="#" class="social-btn" aria-label="Instagram">📷</a>
+          <a href="#" class="social-btn" aria-label="Facebook">📘</a>
+          <a href="#" class="social-btn" aria-label="LINE">💬</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>菜單</h4>
+        <ul>
+          <li><a href="#">義式咖啡</a></li>
+          <li><a href="#">手沖單品</a></li>
+          <li><a href="#">冷萃系列</a></li>
+          <li><a href="#">季節特調</a></li>
+          <li><a href="#">甜點糕點</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>服務</h4>
+        <ul>
+          <li><a href="#">外帶訂購</a></li>
+          <li><a href="#">咖啡豆零售</a></li>
+          <li><a href="#">包場活動</a></li>
+          <li><a href="#">咖啡課程</a></li>
+          <li><a href="#">企業合作</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>關於</h4>
+        <ul>
+          <li><a href="#">我們的故事</a></li>
+          <li><a href="#">門市據點</a></li>
+          <li><a href="#">媒體報導</a></li>
+          <li><a href="#">加入我們</a></li>
+          <li><a href="#">聯絡我們</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Saori Coffee. All rights reserved.</span>
+      <span>隱私權政策 · 使用條款</span>
+    </div>
+  </footer>
+
+  <script>
+    // Nav scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Menu tabs
+    const tabs = document.querySelectorAll('.menu-tab');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+      });
+    });
+
+    // Newsletter
+    function handleSubscribe(e) {
+      e.preventDefault();
+      const input = e.target.querySelector('input');
+      const btn = e.target.querySelector('button');
+      btn.textContent = '✓ 已訂閱';
+      btn.style.background = '#4a7c59';
+      input.value = '';
+      input.placeholder = '感謝你的訂閱！';
+      setTimeout(() => {
+        btn.textContent = '立即訂閱';
+        btn.style.background = '';
+        input.placeholder = '輸入你的 Email';
+      }, 3000);
+    }
+
+    // Add to order feedback
+    document.querySelectorAll('.add-btn').forEach(btn => {
+      btn.addEventListener('click', function () {
+        const original = this.textContent;
+        this.textContent = '✓';
+        this.style.background = '#4a7c59';
+        setTimeout(() => {
+          this.textContent = original;
+          this.style.background = '';
+        }, 1200);
+      });
+    });
+
+    // Intersection Observer for fade-in
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.menu-card, .testimonial-card, .feature-item').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(24px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
